@@ -1,0 +1,34 @@
+.keyboard-list {
+  padding: 10px;
+  width: 860px;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  .backspace {
+    width: 125px;
+  }
+  .tab {
+    width: 60px;
+  }
+  .capslock {
+    width: 106px;
+  }
+  .del {
+    width: 58px;
+  }
+  .enter {
+    width: 124px;
+  }
+  .shift {
+    width: 115px;
+  }
+  .space {
+    width: 376px;
+  }
+  .ctrl {
+    width: 60px;
+  }
+  .win {
+    width: 58px;
+  }
+}

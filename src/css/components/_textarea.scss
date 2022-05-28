@@ -1,0 +1,15 @@
+.text-wrapper {
+  width: 840px;
+  margin: auto;
+}
+
+.textarea {
+  outline: none;
+  width: 820px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid rgb(141, 134, 134);
+  font-size: 20px;
+  font-family: $main-font;
+  background-color: $main-color;
+}

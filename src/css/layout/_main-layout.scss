@@ -1,0 +1,15 @@
+$main-color: #f1f1f1;
+$main-width: 1280px;
+$main-font: Georgia, "Times New Roman", Times, serif;
+
+body {
+  background-color: $main-color;
+}
+
+.container {
+  max-width: $main-width;
+  margin: 0 auto;
+  padding: 0 20px;
+  text-align: center;
+  font-family: $main-font;
+}
