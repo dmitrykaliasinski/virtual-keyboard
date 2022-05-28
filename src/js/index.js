@@ -36,26 +36,26 @@ window.addEventListener('DOMContentLoaded', () => {
   const capsLock = document.querySelector('.capslock');
 
   const capsLockActive = () => {
-    const buttons = document.querySelectorAll('.keyboard-button');
+    const buttons = document.querySelectorAll('.keyboard__button');
     state.count += 1;
     buttons.forEach((button) => {
       const currentButtons = button;
       if (currentButtons.textContent.length === 1) {
         currentButtons.textContent = button.textContent.toUpperCase();
         currentButtons.dataset.keyCode = button.textContent.toUpperCase();
-        capsLock.classList.add('active');
+        capsLock.classList.add('keyboard__button_active');
       }
     });
   };
   const capsLockUnActive = () => {
-    const buttons = document.querySelectorAll('.keyboard-button');
+    const buttons = document.querySelectorAll('.keyboard__button');
     state.count += 1;
     buttons.forEach((button) => {
       const currentButtons = button;
       if (currentButtons.textContent.length === 1) {
         currentButtons.textContent = button.textContent.toLowerCase();
         currentButtons.dataset.keyCode = button.textContent.toLowerCase();
-        capsLock.classList.remove('active');
+        capsLock.classList.remove('keyboard__button_active');
       }
     });
   };
@@ -93,19 +93,19 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
   document.addEventListener('keydown', (event) => {
-    const buttons = document.querySelectorAll('.keyboard-button');
+    const buttons = document.querySelectorAll('.keyboard__button');
     buttons.forEach((button) => {
       if (button.dataset.keyCode === event.key) {
-        button.classList.add('active');
+        button.classList.add('keyboard__button_active');
         textarea.focus();
       }
     });
   });
   document.addEventListener('keyup', (event) => {
-    const buttons = document.querySelectorAll('.keyboard-button');
+    const buttons = document.querySelectorAll('.keyboard__button');
     buttons.forEach((button) => {
       if (button.dataset.keyCode === event.key) {
-        button.classList.remove('active');
+        button.classList.remove('keyboard__button_active');
         state.text = textarea.value;
       }
     });

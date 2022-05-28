@@ -270,7 +270,7 @@ export function generateButtons(lang = 'en') {
   const keyButtonContainer = new DocumentFragment();
   keymap.map((key, i) => {
     const keyButton = document.createElement('button');
-    keyButton.classList.add('keyboard-button');
+    keyButton.classList.add('keyboard__button');
     keyButton.classList.add(key.toLowerCase());
     if (lang === 'en') {
       keyButton.dataset.keyCode = keyCodes.keycodeEn[i];
@@ -285,7 +285,7 @@ export function generateButtons(lang = 'en') {
 }
 
 export function createKeyBoard(lang) {
-  const mainContainer = document.querySelector('.container-main');
+  const mainContainer = document.querySelector('.container_main');
   const keyboardWrapper = document.createElement('div');
   keyboardWrapper.classList.add('keyboard-list');
   keyboardWrapper.append(generateButtons(lang));

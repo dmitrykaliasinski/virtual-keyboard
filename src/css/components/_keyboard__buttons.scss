@@ -1,7 +1,7 @@
 $keyboard-buttons-color: #474747;
 $keyboard-buttons-color-hover: rgb(129, 185, 140);
 
-.keyboard-button {
+.keyboard__button {
   min-width: 50px;
   min-height: 50px;
   padding: 10px;
@@ -12,16 +12,19 @@ $keyboard-buttons-color-hover: rgb(129, 185, 140);
   border-radius: 5px;
   transition: 0.3s ease-in-out;
   box-shadow: 1px 2px 1px 1px #000;
+
   &:hover {
     background-color: $keyboard-buttons-color-hover;
     border: $keyboard-buttons-color-hover;
   }
+
   &:active {
     transform: scale(0.95);
   }
+
 }
 
-.active {
+.keyboard__button_active {
   background-color: $keyboard-buttons-color-hover;
   border: $keyboard-buttons-color-hover;
   transform: scale(0.95);
