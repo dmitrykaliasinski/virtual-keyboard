@@ -1,16 +1,26 @@
 import createHeader from './components/header/header';
 import createFooter from './components/footer/footer';
-import createTextarea from './textarea';
+import createTextarea from './components/main/textarea';
 import * as board from './components/main/board';
 
 import '../css/main.scss';
 
 const state = {
   lang: 'ru',
-  count: 1,
   text: '',
   capsLock: false,
 };
+
+window.addEventListener('beforeunload', () => {
+  localStorage.setItem('language', state.lang);
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+  const language = localStorage.getItem('language');
+  if (language !== null) {
+    state.lang = language;
+  }
+});
 
 window.addEventListener('DOMContentLoaded', () => {
   createHeader();
@@ -38,6 +48,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const capsLockActive = () => {
     const buttons = document.querySelectorAll('.keyboard__button');
     state.count += 1;
+    state.capsLock = true;
     buttons.forEach((button) => {
       const currentButtons = button;
       if (currentButtons.textContent.length === 1) {
@@ -50,6 +61,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const capsLockUnActive = () => {
     const buttons = document.querySelectorAll('.keyboard__button');
     state.count += 1;
+    state.capsLock = false;
     buttons.forEach((button) => {
       const currentButtons = button;
       if (currentButtons.textContent.length === 1) {
@@ -79,7 +91,7 @@ window.addEventListener('DOMContentLoaded', () => {
       state.text = state.text.slice(0, cursorAt) + state.text.slice(cursorAt + 1);
     }
     if (currentButton === 'CapsLock') {
-      if (state.count % 2 === 0) {
+      if (!state.capsLock) {
         capsLockActive();
       } else {
         capsLockUnActive();
@@ -118,13 +130,4 @@ window.addEventListener('DOMContentLoaded', () => {
       capsLockUnActive();
     }
   });
-});
-
-window.addEventListener('beforeunload', () => {
-  localStorage.setItem('language', state.lang);
-});
-
-window.addEventListener('DOMContentLoaded', () => {
-  const language = localStorage.getItem('language');
-  state.lang = language;
 });
