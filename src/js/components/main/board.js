@@ -7,11 +7,9 @@ export function generateButtons(lang = 'en') {
     const keyButton = document.createElement('button');
     keyButton.classList.add('keyboard__button');
     keyButton.classList.add(key.toLowerCase());
-    if (lang === 'en') {
-      keyButton.dataset.keyCode = keyCodes.keyCodeEn[i];
-    } else {
-      keyButton.dataset.keyCode = keyCodes.keyCodeRu[i];
-    }
+    keyButton.dataset.keyCode = lang === 'en'
+      ? keyCodes.keyCodeEn[i]
+      : keyCodes.keyCodeRu[i];
     keyButton.textContent = key;
     keyButtonContainer.append(keyButton);
     return true;
