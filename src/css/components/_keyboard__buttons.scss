@@ -1,7 +1,7 @@
 $keyboard-buttons-color: #474747;
 $keyboard-buttons-color-hover: rgb(129, 185, 140);
 $shadow: 1px 2px 1px 1px #000; // box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5); - more flying style
-
+$keyboard-letter-color: #fff;
 
 @mixin button-shadow {
   -webkit-box-shadow: $shadow;
@@ -16,7 +16,7 @@ $shadow: 1px 2px 1px 1px #000; // box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5
   margin: 3px;
   font-size: 20px;
   background-color: $keyboard-buttons-color;
-  color: #fff;
+  color: $keyboard-letter-color;
   border-radius: 5px;
   transition: 0.3s ease-in-out;
   @include button-shadow;

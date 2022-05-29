@@ -1,3 +1,5 @@
+$textarea-border-color: rgb(141, 134, 134);
+
 .text-wrapper {
   width: 840px;
   margin: auto;
@@ -10,6 +12,6 @@
   font-size: 20px;
   background-color: $main-color;
   border-radius: 10px;
-  border: 2px solid rgb(141, 134, 134);
+  border: 2px solid $textarea-border-color;
   outline: none;
 }
