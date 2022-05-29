@@ -7,3 +7,9 @@ export default function createHeader() {
   header.innerHTML = headerElements;
   body.append(header);
 }
+
+Class Headers() {
+  constructor() {
+
+  }
+}

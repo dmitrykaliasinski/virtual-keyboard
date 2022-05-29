@@ -47,7 +47,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const capsLockActive = () => {
     const buttons = document.querySelectorAll('.keyboard__button');
-    state.count += 1;
     state.capsLock = true;
     buttons.forEach((button) => {
       const currentButtons = button;
@@ -60,7 +59,6 @@ window.addEventListener('DOMContentLoaded', () => {
   };
   const capsLockUnActive = () => {
     const buttons = document.querySelectorAll('.keyboard__button');
-    state.count += 1;
     state.capsLock = false;
     buttons.forEach((button) => {
       const currentButtons = button;
