@@ -1,6 +1,6 @@
-import createHeader from './components/header/header';
-import createFooter from './components/footer/footer';
-import createTextarea from './components/main/textarea';
+// import createHeader from './components/header/header';
+import createHtml from './components/footer/footer';
+// import createTextarea from './components/main/textarea';
 import * as board from './components/main/board';
 
 import '../css/main.scss';
@@ -23,10 +23,13 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 window.addEventListener('DOMContentLoaded', () => {
-  createHeader();
-  createTextarea();
+  // createHeader();
+  createHtml.create('header');
+  // createTextarea();
+  createHtml.create('main');
   board.createKeyBoard(state.lang);
-  createFooter();
+  createHtml.create('footer');
+  // createFooter();
 
   const keyBoard = document.querySelector('.keyboard-list');
 
