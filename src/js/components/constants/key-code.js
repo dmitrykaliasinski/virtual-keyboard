@@ -131,7 +131,7 @@ const keyCodes = {
     '→',
     'Ctrl',
   ],
-  keycodeEn: [
+  keyCodeEn: [
     '`',
     '1',
     '2',
@@ -197,7 +197,7 @@ const keyCodes = {
     'ArrowRight',
     'Control',
   ],
-  keycodeRu: [
+  keyCodeRu: [
     'ё',
     '1',
     '2',

@@ -1,12 +1,14 @@
-// import createHeader from './components/header/header';
-import createHtml from './components/footer/footer';
-// import createTextarea from './components/main/textarea';
+import CreatePage from './components/createHtml/createHtml';
 import * as board from './components/main/board';
 
 import '../css/main.scss';
 
+const createPage = new CreatePage();
+
+const LANG = { RU: 'ru', EN: 'en' };
+
 const state = {
-  lang: 'ru',
+  lang: LANG.RU,
   text: '',
   capsLock: false,
 };
@@ -23,22 +25,17 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 window.addEventListener('DOMContentLoaded', () => {
-  // createHeader();
-  createHtml.create('header');
-  // createTextarea();
-  createHtml.create('main');
+  createPage.create();
   board.createKeyBoard(state.lang);
-  createHtml.create('footer');
-  // createFooter();
 
   const keyBoard = document.querySelector('.keyboard-list');
 
   document.addEventListener('keydown', (event) => {
     if (event.ctrlKey && event.altKey) {
-      if (state.lang === 'ru') {
-        state.lang = 'en';
+      if (state.lang === LANG.RU) {
+        state.lang = LANG.EN;
       } else {
-        state.lang = 'ru';
+        state.lang = LANG.RU;
       }
       keyBoard.innerHTML = '';
       keyBoard.append(board.generateButtons(state.lang));
@@ -53,7 +50,7 @@ window.addEventListener('DOMContentLoaded', () => {
     state.capsLock = true;
     buttons.forEach((button) => {
       const currentButtons = button;
-      if (currentButtons.textContent.length === 1) {
+      if (currentButtons.dataset.keyCode.length === 1 && currentButtons.textContent.length === 1) {
         currentButtons.textContent = button.textContent.toUpperCase();
         currentButtons.dataset.keyCode = button.textContent.toUpperCase();
         capsLock.classList.add('keyboard__button_active');
@@ -65,7 +62,7 @@ window.addEventListener('DOMContentLoaded', () => {
     state.capsLock = false;
     buttons.forEach((button) => {
       const currentButtons = button;
-      if (currentButtons.textContent.length === 1) {
+      if (currentButtons.dataset.keyCode.length === 1 && currentButtons.textContent.length === 1) {
         currentButtons.textContent = button.textContent.toLowerCase();
         currentButtons.dataset.keyCode = button.textContent.toLowerCase();
         capsLock.classList.remove('keyboard__button_active');

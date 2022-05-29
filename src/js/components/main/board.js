@@ -1,4 +1,4 @@
-import keyCodes from '../keys/key-code';
+import keyCodes from '../constants/key-code';
 
 export function generateButtons(lang = 'en') {
   const keyMap = keyCodes[lang];
@@ -8,9 +8,9 @@ export function generateButtons(lang = 'en') {
     keyButton.classList.add('keyboard__button');
     keyButton.classList.add(key.toLowerCase());
     if (lang === 'en') {
-      keyButton.dataset.keyCode = keyCodes.keycodeEn[i];
+      keyButton.dataset.keyCode = keyCodes.keyCodeEn[i];
     } else {
-      keyButton.dataset.keyCode = keyCodes.keycodeRu[i];
+      keyButton.dataset.keyCode = keyCodes.keyCodeRu[i];
     }
     keyButton.textContent = key;
     keyButtonContainer.append(keyButton);
