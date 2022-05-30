@@ -8,9 +8,7 @@ export function generateButtons(lang = 'en') {
     <button class="keyboard__button ${key.toLowerCase()}"
       data-key-code="${lang === 'en'
     ? keyCodes.keyCodeEn[i]
-    : keyCodes.keyCodeRu[i]}">
-      ${key}
-    </button>
+    : keyCodes.keyCodeRu[i]}">${key}</button>
     `;
     keyButtonContainer += keyButton;
   });
