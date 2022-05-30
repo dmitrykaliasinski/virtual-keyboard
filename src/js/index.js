@@ -38,7 +38,7 @@ window.addEventListener('DOMContentLoaded', () => {
         state.lang = LANG.RU;
       }
       keyBoard.innerHTML = '';
-      keyBoard.append(board.generateButtons(state.lang));
+      keyBoard.innerHTML = board.generateButtons(state.lang);
     }
   });
 

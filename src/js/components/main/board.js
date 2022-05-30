@@ -2,17 +2,17 @@ import keyCodes from '../constants/key-code';
 
 export function generateButtons(lang = 'en') {
   const keyMap = keyCodes[lang];
-  const keyButtonContainer = new DocumentFragment();
+  let keyButtonContainer = '';
   keyMap.forEach((key, i) => {
-    const keyButton = document.createElement('button');
-    keyButton.classList.add('keyboard__button');
-    keyButton.classList.add(key.toLowerCase());
-    keyButton.dataset.keyCode = lang === 'en'
-      ? keyCodes.keyCodeEn[i]
-      : keyCodes.keyCodeRu[i];
-    keyButton.textContent = key;
-    keyButtonContainer.append(keyButton);
-    return true;
+    const keyButton = `
+    <button class="keyboard__button ${key.toLowerCase()}"
+      data-key-code="${lang === 'en'
+    ? keyCodes.keyCodeEn[i]
+    : keyCodes.keyCodeRu[i]}">
+      ${key}
+    </button>
+    `;
+    keyButtonContainer += keyButton;
   });
   return keyButtonContainer;
 }
@@ -21,6 +21,6 @@ export function createKeyBoard(lang) {
   const mainContainer = document.querySelector('.container_main');
   const keyboardWrapper = document.createElement('div');
   keyboardWrapper.classList.add('keyboard-list');
-  keyboardWrapper.append(generateButtons(lang));
+  keyboardWrapper.innerHTML = generateButtons(lang);
   mainContainer.append(keyboardWrapper);
 }
