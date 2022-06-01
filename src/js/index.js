@@ -48,29 +48,29 @@ window.addEventListener('DOMContentLoaded', () => {
   const textarea = document.querySelector('.textarea');
   const capsLock = document.querySelector('.capslock');
 
-  const capsLockActive = () => {
+  const capsLockHandler = () => {
     const buttons = document.querySelectorAll('.keyboard__button');
-    buttons.forEach((button) => {
-      const currentButtons = button;
-      if (button.textContent.trim().length === 1) {
-        state.capsLock = true;
-        currentButtons.textContent = button.textContent.toUpperCase();
-        currentButtons.dataset.keyCode = button.textContent.toUpperCase();
-        capsLock.classList.add('keyboard__button_active');
-      }
-    });
-  };
-  const capsLockUnActive = () => {
-    const buttons = document.querySelectorAll('.keyboard__button');
-    buttons.forEach((button) => {
-      const currentButtons = button;
-      if (currentButtons.textContent.trim().length === 1) {
-        state.capsLock = false;
-        currentButtons.textContent = button.textContent.toLowerCase();
-        currentButtons.dataset.keyCode = button.textContent.toLowerCase();
-        capsLock.classList.remove('keyboard__button_active');
-      }
-    });
+    if (!state.capsLock) {
+      buttons.forEach((button) => {
+        const currentButtons = button;
+        if (button.textContent.trim().length === 1) {
+          state.capsLock = true;
+          currentButtons.textContent = button.textContent.toUpperCase();
+          currentButtons.dataset.keyCode = button.textContent.toUpperCase();
+          capsLock.classList.add('keyboard__button_active');
+        }
+      });
+    } else {
+      buttons.forEach((button) => {
+        const currentButtons = button;
+        if (currentButtons.textContent.trim().length === 1) {
+          state.capsLock = false;
+          currentButtons.textContent = button.textContent.toLowerCase();
+          currentButtons.dataset.keyCode = button.textContent.toLowerCase();
+          capsLock.classList.remove('keyboard__button_active');
+        }
+      });
+    }
   };
 
   const shiftHandlerUp = () => {
@@ -166,11 +166,7 @@ window.addEventListener('DOMContentLoaded', () => {
       deleteHandler();
     }
     if (currentButton === 'CapsLock') {
-      if (!state.capsLock) {
-        capsLockActive();
-      } else {
-        capsLockUnActive();
-      }
+      capsLockHandler();
     } else if (event.target.textContent.length === 1) {
       const buttonValue = event.target.textContent;
       buttonKeyOutput(buttonValue);
@@ -196,15 +192,13 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
   document.addEventListener('keydown', (event) => {
-    if (event.getModifierState('CapsLock')) {
-      capsLockActive();
-    } else {
-      capsLockUnActive();
+    if (event.key === 'CapsLock') {
+      capsLockHandler();
     }
   });
 
   document.addEventListener('keydown', (event) => {
-    if (event.getModifierState('Shift')) {
+    if (event.key === 'Shift') {
       shiftHandlerUp();
     }
   });
