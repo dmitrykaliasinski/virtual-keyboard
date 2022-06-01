@@ -12,6 +12,12 @@ const state = {
   capsLock: false,
 };
 
+const KEYBOARD = {
+  tab: '  ',
+  space: ' ',
+  enter: '\n',
+};
+
 window.addEventListener('beforeunload', () => {
   localStorage.setItem('language', state.lang);
 });
@@ -86,8 +92,52 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   };
 
+  const backspaceHandler = () => {
+    const cursorAt = textarea.selectionStart;
+    textarea.value = textarea.value.slice(0, cursorAt - 1)
+                     + textarea.value.slice(cursorAt);
+    textarea.setSelectionRange(cursorAt + 1, cursorAt - 1);
+  };
+
+  const tabHandler = () => {
+    const cursorAt = textarea.selectionStart;
+    textarea.value = textarea.value.slice(0, cursorAt)
+                     + KEYBOARD.tab + textarea.value.slice(cursorAt);
+    textarea.setSelectionRange(cursorAt + 2, cursorAt + 2);
+  };
+
+  const spaceHandler = () => {
+    const cursorAt = textarea.selectionStart;
+    textarea.value = textarea.value.slice(0, cursorAt)
+                     + KEYBOARD.space
+                     + textarea.value.slice(cursorAt);
+    textarea.setSelectionRange(cursorAt + 1, cursorAt + 1);
+  };
+
+  const enterHandler = () => {
+    const cursorAt = textarea.selectionStart;
+    textarea.value = textarea.value.slice(0, cursorAt)
+                     + KEYBOARD.enter
+                     + textarea.value.slice(cursorAt);
+    textarea.setSelectionRange(cursorAt + 1, cursorAt + 1);
+  };
+
+  const deleteHandler = () => {
+    const cursorAt = textarea.selectionStart;
+    textarea.value = textarea.value.slice(0, cursorAt)
+                     + textarea.value.slice(cursorAt + 1);
+    textarea.setSelectionRange(cursorAt + 1, cursorAt);
+  };
+
+  const buttonKeyOutput = (buttonValue) => {
+    const cursorAt = textarea.selectionStart;
+    textarea.value = textarea.value.slice(0, cursorAt)
+                     + buttonValue
+                     + textarea.value.slice(cursorAt);
+    textarea.setSelectionRange(cursorAt + 1, cursorAt + 1);
+  };
+
   document.addEventListener('mousedown', (event) => {
-    // console.log(event.target.classList.contains('shift'));
     if (event.target.classList.contains('shift')) {
       shiftHandlerUp();
     }
@@ -101,20 +151,19 @@ window.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('click', (event) => {
     const currentButton = event.target.dataset.keyCode;
     if (currentButton === 'Backspace') {
-      textarea.value = textarea.value.slice(0, textarea.value.length - 1);
+      backspaceHandler();
     }
     if (currentButton === 'Tab') {
-      textarea.value += '  ';
+      tabHandler();
     }
     if (currentButton === ' ') {
-      textarea.value += ' ';
+      spaceHandler();
     }
     if (currentButton === 'Enter') {
-      textarea.value += '\n';
+      enterHandler();
     }
     if (currentButton === 'Delete') {
-      const cursorAt = textarea.selectionStart;
-      textarea.value = textarea.value.slice(0, cursorAt) + textarea.value.slice(cursorAt + 1);
+      deleteHandler();
     }
     if (currentButton === 'CapsLock') {
       if (!state.capsLock) {
@@ -124,7 +173,7 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     } else if (event.target.textContent.length === 1) {
       const buttonValue = event.target.textContent;
-      textarea.value += buttonValue;
+      buttonKeyOutput(buttonValue);
     }
     textarea.focus();
   });
@@ -146,7 +195,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  document.addEventListener('keyup', (event) => {
+  document.addEventListener('keydown', (event) => {
     if (event.getModifierState('CapsLock')) {
       capsLockActive();
     } else {
@@ -157,6 +206,19 @@ window.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('keydown', (event) => {
     if (event.getModifierState('Shift')) {
       shiftHandlerUp();
+    }
+  });
+
+  document.addEventListener('keyup', (event) => {
+    if (event.key === 'Shift') {
+      shiftHandlerDown();
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      tabHandler();
     }
   });
 });
