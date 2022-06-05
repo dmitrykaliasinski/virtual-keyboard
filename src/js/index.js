@@ -1,22 +1,11 @@
 import PageBuilder from './components/createHtml/createHtml';
-import * as board from './components/main/board';
+import * as board from './components/keyboard/board';
+import { LANG, state } from './components/constants/state';
+import handlers from './components/button-handlers/handlers';
 
 import '../css/main.scss';
 
 const createPage = new PageBuilder();
-
-const LANG = { RU: 'ru', EN: 'en' };
-
-const state = {
-  lang: localStorage.getItem('language') || LANG.RU,
-  capsLock: false,
-};
-
-const KEYBOARD = {
-  tab: '  ',
-  space: ' ',
-  enter: '\n',
-};
 
 window.addEventListener('beforeunload', () => {
   localStorage.setItem('language', state.lang);
@@ -27,6 +16,8 @@ window.addEventListener('DOMContentLoaded', () => {
   board.createKeyBoard(state.lang);
 
   const keyBoard = document.querySelector('.keyboard-list');
+  const textarea = document.querySelector('.textarea');
+  const capsLock = document.querySelector('.capslock');
 
   document.addEventListener('keydown', (event) => {
     const switcherCtrlAlt = event.ctrlKey && event.altKey;
@@ -38,121 +29,39 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  const textarea = document.querySelector('.textarea');
-  const capsLock = document.querySelector('.capslock');
-
-  const capsLockHandler = () => {
-    const buttons = document.querySelectorAll('.keyboard__button');
-    state.capsLock = !state.capsLock;
-    capsLock.classList.toggle('keyboard__button_active');
-    buttons.forEach((button) => {
-      const currentButtons = button;
-      if (button.textContent.match(/^[a-zА-Яё]$/i)) {
-        currentButtons.textContent = state.capsLock
-          ? button.textContent.toUpperCase()
-          : button.textContent.toLowerCase();
-        currentButtons.dataset.keyCode = currentButtons.textContent;
-      }
-    });
-  };
-
-  const shiftHandlerUp = () => {
-    const buttons = document.querySelectorAll('.keyboard__button');
-    buttons.forEach((button) => {
-      const currentButtons = button;
-      if (button.textContent.trim().length === 1) {
-        currentButtons.textContent = button.textContent.toUpperCase();
-      }
-    });
-  };
-  const shiftHandlerDown = () => {
-    const buttons = document.querySelectorAll('.keyboard__button');
-    buttons.forEach((button) => {
-      const currentButtons = button;
-      if (button.textContent.trim().length === 1) {
-        currentButtons.textContent = button.textContent.toLowerCase();
-      }
-    });
-  };
-
-  const backspaceHandler = () => {
-    const cursorAt = textarea.selectionStart;
-    textarea.value = textarea.value.slice(0, cursorAt - 1)
-                     + textarea.value.slice(cursorAt);
-    textarea.setSelectionRange(cursorAt + 1, cursorAt - 1);
-  };
-
-  const tabHandler = () => {
-    const cursorAt = textarea.selectionStart;
-    textarea.value = textarea.value.slice(0, cursorAt)
-                     + KEYBOARD.tab + textarea.value.slice(cursorAt);
-    textarea.setSelectionRange(cursorAt + 2, cursorAt + 2);
-  };
-
-  const spaceHandler = () => {
-    const cursorAt = textarea.selectionStart;
-    textarea.value = textarea.value.slice(0, cursorAt)
-                     + KEYBOARD.space
-                     + textarea.value.slice(cursorAt);
-    textarea.setSelectionRange(cursorAt + 1, cursorAt + 1);
-  };
-
-  const enterHandler = () => {
-    const cursorAt = textarea.selectionStart;
-    textarea.value = textarea.value.slice(0, cursorAt)
-                     + KEYBOARD.enter
-                     + textarea.value.slice(cursorAt);
-    textarea.setSelectionRange(cursorAt + 1, cursorAt + 1);
-  };
-
-  const deleteHandler = () => {
-    const cursorAt = textarea.selectionStart;
-    textarea.value = textarea.value.slice(0, cursorAt)
-                     + textarea.value.slice(cursorAt + 1);
-    textarea.setSelectionRange(cursorAt + 1, cursorAt);
-  };
-
-  const buttonKeyOutput = (buttonValue) => {
-    const cursorAt = textarea.selectionStart;
-    textarea.value = textarea.value.slice(0, cursorAt)
-                     + buttonValue
-                     + textarea.value.slice(cursorAt);
-    textarea.setSelectionRange(cursorAt + 1, cursorAt + 1);
-  };
-
   document.addEventListener('mousedown', (event) => {
     if (event.target.classList.contains('shift')) {
-      shiftHandlerUp();
+      handlers.shiftHandlerUp();
     }
   });
   document.addEventListener('mouseup', (event) => {
     if (event.target.classList.contains('shift')) {
-      shiftHandlerDown();
+      handlers.shiftHandlerDown();
     }
   });
 
   document.addEventListener('click', (event) => {
     const currentButton = event.target.dataset.keyCode;
     if (currentButton === 'Backspace') {
-      backspaceHandler();
+      handlers.backspaceHandler(textarea);
     }
     if (currentButton === 'Tab') {
-      tabHandler();
+      handlers.tabHandler(textarea);
     }
     if (currentButton === ' ') {
-      spaceHandler();
+      handlers.spaceHandler(textarea);
     }
     if (currentButton === 'Enter') {
-      enterHandler();
+      handlers.enterHandler(textarea);
     }
     if (currentButton === 'Delete') {
-      deleteHandler();
+      handlers.deleteHandler(textarea);
     }
     if (currentButton === 'CapsLock') {
-      capsLockHandler();
+      handlers.capsLockHandler(capsLock);
     } else if (event.target.textContent.length === 1) {
       const buttonValue = event.target.textContent;
-      buttonKeyOutput(buttonValue);
+      handlers.buttonKeyOutput(buttonValue, textarea);
     }
     textarea.focus();
   });
@@ -165,14 +74,14 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     });
     if (event.key === 'CapsLock') {
-      capsLockHandler();
+      handlers.capsLockHandler(capsLock);
     }
     if (event.key === 'Shift') {
-      shiftHandlerUp();
+      handlers.shiftHandlerUp();
     }
     if (event.key === 'Tab') {
       event.preventDefault();
-      tabHandler();
+      handlers.tabHandler(textarea);
     }
   });
   document.addEventListener('keyup', (event) => {
@@ -183,7 +92,7 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     });
     if (event.key === 'Shift') {
-      shiftHandlerDown();
+      handlers.shiftHandlerDown();
     }
   });
 });
