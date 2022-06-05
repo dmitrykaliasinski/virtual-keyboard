@@ -1,14 +1,14 @@
-import CreatePage from './components/createHtml/createHtml';
+import PageBuilder from './components/createHtml/createHtml';
 import * as board from './components/main/board';
 
 import '../css/main.scss';
 
-const createPage = new CreatePage();
+const createPage = new PageBuilder();
 
 const LANG = { RU: 'ru', EN: 'en' };
 
 const state = {
-  lang: LANG.RU,
+  lang: localStorage.getItem('language') || LANG.RU,
   capsLock: false,
 };
 
@@ -20,13 +20,6 @@ const KEYBOARD = {
 
 window.addEventListener('beforeunload', () => {
   localStorage.setItem('language', state.lang);
-});
-
-window.addEventListener('DOMContentLoaded', () => {
-  const language = localStorage.getItem('language');
-  if (language !== null) {
-    state.lang = language;
-  }
 });
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -50,27 +43,17 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const capsLockHandler = () => {
     const buttons = document.querySelectorAll('.keyboard__button');
-    if (!state.capsLock) {
-      buttons.forEach((button) => {
-        const currentButtons = button;
-        if (button.textContent.trim().length === 1) {
-          state.capsLock = true;
-          currentButtons.textContent = button.textContent.toUpperCase();
-          currentButtons.dataset.keyCode = button.textContent.toUpperCase();
-          capsLock.classList.add('keyboard__button_active');
-        }
-      });
-    } else {
-      buttons.forEach((button) => {
-        const currentButtons = button;
-        if (currentButtons.textContent.trim().length === 1) {
-          state.capsLock = false;
-          currentButtons.textContent = button.textContent.toLowerCase();
-          currentButtons.dataset.keyCode = button.textContent.toLowerCase();
-          capsLock.classList.remove('keyboard__button_active');
-        }
-      });
-    }
+    state.capsLock = !state.capsLock;
+    capsLock.classList.toggle('keyboard__button_active');
+    buttons.forEach((button) => {
+      const currentButtons = button;
+      if (button.textContent.match(/^[a-zА-Яё]$/i)) {
+        currentButtons.textContent = state.capsLock
+          ? button.textContent.toUpperCase()
+          : button.textContent.toLowerCase();
+        currentButtons.dataset.keyCode = currentButtons.textContent;
+      }
+    });
   };
 
   const shiftHandlerUp = () => {
@@ -177,42 +160,30 @@ window.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('keydown', (event) => {
     const buttons = document.querySelectorAll('.keyboard__button');
     buttons.forEach((button) => {
-      if (button.dataset.keyCode === event.key) {
+      if (button.dataset.keyCode === event.key && event.key !== 'CapsLock') {
         button.classList.add('keyboard__button_active');
       }
     });
+    if (event.key === 'CapsLock') {
+      capsLockHandler();
+    }
+    if (event.key === 'Shift') {
+      shiftHandlerUp();
+    }
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      tabHandler();
+    }
   });
   document.addEventListener('keyup', (event) => {
     const buttons = document.querySelectorAll('.keyboard__button');
     buttons.forEach((button) => {
-      if (button.dataset.keyCode === event.key) {
+      if (button.dataset.keyCode === event.key && event.key !== 'CapsLock') {
         button.classList.remove('keyboard__button_active');
       }
     });
-  });
-
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'CapsLock') {
-      capsLockHandler();
-    }
-  });
-
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Shift') {
-      shiftHandlerUp();
-    }
-  });
-
-  document.addEventListener('keyup', (event) => {
     if (event.key === 'Shift') {
       shiftHandlerDown();
-    }
-  });
-
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Tab') {
-      event.preventDefault();
-      tabHandler();
     }
   });
 });

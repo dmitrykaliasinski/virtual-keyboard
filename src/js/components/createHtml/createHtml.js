@@ -1,6 +1,6 @@
 import { HEADER, MAIN, FOOTER } from '../constants/html-structure';
 
-export default class CreatePage {
+export default class PageBuilder {
   constructor() {
     this.pageStructure = {
       header: HEADER,
