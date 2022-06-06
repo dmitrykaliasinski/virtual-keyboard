@@ -1,8 +1,8 @@
-import PageBuilder from './components/createHtml/createHtml';
-import * as board from './components/keyboard/board';
-import { LANG, state } from './components/constants/state';
-import handlers from './components/button-handlers/handlers';
-import keyCodes from './components/constants/key-code';
+import PageBuilder from './components/pageBuilder/createHtml';
+import * as board from './components/createKeyboard/board';
+import { LANG, state } from './constants/state';
+import handlers from './button-handlers/handlers';
+import keyCodes from './constants/key-code';
 
 import '../css/main.scss';
 
@@ -19,7 +19,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const textarea = document.querySelector('.textarea');
   const capsLock = document.querySelector('.capslock');
   const buttons = document.querySelectorAll('.keyboard__button');
-  // const langButtons = buttons.forEach((button) => button.textContent.match(/^[a-zА-Яё]$/i));
+  const letterButtons = (button) => button.textContent.match(/^[a-zА-Яё]$/i);
 
   document.addEventListener('keydown', (event) => {
     const switcherCtrlAlt = event.ctrlKey && event.altKey;
@@ -28,23 +28,25 @@ window.addEventListener('DOMContentLoaded', () => {
       state.lang = state.lang === LANG.RU ? LANG.EN : LANG.RU;
       const keyMap = keyCodes[state.lang];
       buttons.forEach((button, i) => {
-        const currentButtons = button;
-        currentButtons.textContent = keyMap[i];
-        currentButtons.dataset.keyCode = state.lang === 'en'
-          ? keyCodes.keyCodeEn[i]
-          : keyCodes.keyCodeRu[i];
+        const currentButton = button;
+        if (letterButtons(button)) {
+          currentButton.textContent = keyMap[i];
+          currentButton.dataset.keyCode = state.lang === 'en'
+            ? keyCodes.keyCodeEn[i]
+            : keyCodes.keyCodeRu[i];
+        }
       });
     }
   });
 
   document.addEventListener('mousedown', (event) => {
     if (event.target.classList.contains('shift')) {
-      handlers.shiftHandlerUp(buttons);
+      handlers.shiftHandlerUp(buttons, letterButtons);
     }
   });
   document.addEventListener('mouseup', (event) => {
     if (event.target.classList.contains('shift')) {
-      handlers.shiftHandlerDown(buttons);
+      handlers.shiftHandlerDown(buttons, letterButtons);
     }
   });
 
@@ -66,7 +68,7 @@ window.addEventListener('DOMContentLoaded', () => {
       handlers.deleteHandler(textarea);
     }
     if (currentButton === 'CapsLock') {
-      handlers.capsLockHandler(capsLock, buttons);
+      handlers.capsLockHandler(capsLock, buttons, letterButtons);
     } else if (event.target.textContent.length === 1) {
       const buttonValue = event.target.textContent;
       handlers.buttonKeyOutput(buttonValue, textarea);
@@ -81,10 +83,10 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     });
     if (event.key === 'CapsLock') {
-      handlers.capsLockHandler(capsLock, buttons);
+      handlers.capsLockHandler(capsLock, buttons, letterButtons);
     }
     if (event.key === 'Shift') {
-      handlers.shiftHandlerUp(buttons);
+      handlers.shiftHandlerUp(buttons, letterButtons);
     }
     if (event.key === 'Tab') {
       event.preventDefault();
@@ -98,7 +100,7 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     });
     if (event.key === 'Shift') {
-      handlers.shiftHandlerDown(buttons);
+      handlers.shiftHandlerDown(buttons, letterButtons);
     }
   });
 });

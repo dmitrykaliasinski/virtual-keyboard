@@ -1,4 +1,7 @@
-const LANG = { RU: 'ru', EN: 'en' };
+const LANG = {
+  RU: 'ru',
+  EN: 'en',
+};
 
 const state = {
   lang: localStorage.getItem('language') || LANG.RU,

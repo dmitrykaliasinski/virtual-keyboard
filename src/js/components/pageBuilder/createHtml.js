@@ -1,4 +1,4 @@
-import { HEADER, MAIN, FOOTER } from '../constants/html-structure';
+import { HEADER, MAIN, FOOTER } from '../../constants/html-structure';
 
 export default class PageBuilder {
   constructor() {

@@ -2,34 +2,34 @@ import { state, KEYBOARD } from '../constants/state';
 
 const handlers = {
 
-  capsLockHandler: (capsLock, buttons) => {
+  capsLockHandler: (capsLock, buttons, letterButtons) => {
     state.capsLock = !state.capsLock;
     capsLock.classList.toggle('keyboard__button_active');
     buttons.forEach((button) => {
-      const currentButtons = button;
-      if (button.textContent.match(/^[a-zА-Яё]$/i)) {
-        currentButtons.textContent = state.capsLock
+      const currentButton = button;
+      if (letterButtons(button)) {
+        currentButton.textContent = state.capsLock
           ? button.textContent.toUpperCase()
           : button.textContent.toLowerCase();
-        currentButtons.dataset.keyCode = currentButtons.textContent;
+        currentButton.dataset.keyCode = currentButton.textContent;
       }
     });
   },
 
-  shiftHandlerUp: (buttons) => {
+  shiftHandlerUp: (buttons, letterButtons) => {
     buttons.forEach((button) => {
-      const currentButtons = button;
-      if (button.textContent.match(/^[a-zА-Яё]$/i)) {
-        currentButtons.textContent = button.textContent.toUpperCase();
+      const currentButton = button;
+      if (letterButtons(button)) {
+        currentButton.textContent = button.textContent.toUpperCase();
       }
     });
   },
 
-  shiftHandlerDown: (buttons) => {
+  shiftHandlerDown: (buttons, letterButtons) => {
     buttons.forEach((button) => {
-      const currentButtons = button;
-      if (button.textContent.match(/^[a-zА-Яё]$/i)) {
-        currentButtons.textContent = button.textContent.toLowerCase();
+      const currentButton = button;
+      if (letterButtons(button)) {
+        currentButton.textContent = button.textContent.toLowerCase();
       }
     });
   },

@@ -1,4 +1,4 @@
-import keyCodes from '../constants/key-code';
+import keyCodes from '../../constants/key-code';
 
 export function generateButtons(lang = 'en') {
   const keyMap = keyCodes[lang];
