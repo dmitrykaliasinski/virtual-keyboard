@@ -2,8 +2,7 @@ import { state, KEYBOARD } from '../constants/state';
 
 const handlers = {
 
-  capsLockHandler: (capsLock) => {
-    const buttons = document.querySelectorAll('.keyboard__button');
+  capsLockHandler: (capsLock, buttons) => {
     state.capsLock = !state.capsLock;
     capsLock.classList.toggle('keyboard__button_active');
     buttons.forEach((button) => {
@@ -17,21 +16,19 @@ const handlers = {
     });
   },
 
-  shiftHandlerUp: () => {
-    const buttons = document.querySelectorAll('.keyboard__button');
+  shiftHandlerUp: (buttons) => {
     buttons.forEach((button) => {
       const currentButtons = button;
-      if (button.textContent.trim().length === 1) {
+      if (button.textContent.match(/^[a-zА-Яё]$/i)) {
         currentButtons.textContent = button.textContent.toUpperCase();
       }
     });
   },
 
-  shiftHandlerDown: () => {
-    const buttons = document.querySelectorAll('.keyboard__button');
+  shiftHandlerDown: (buttons) => {
     buttons.forEach((button) => {
       const currentButtons = button;
-      if (button.textContent.trim().length === 1) {
+      if (button.textContent.match(/^[a-zА-Яё]$/i)) {
         currentButtons.textContent = button.textContent.toLowerCase();
       }
     });
@@ -76,7 +73,6 @@ const handlers = {
 
   buttonKeyOutput: (buttonValue, textarea) => {
     const cursorAt = textarea.selectionStart;
-    // eslint-disable-next-line no-param-reassign
     textarea.value = textarea.value.slice(0, cursorAt)
                      + buttonValue
                      + textarea.value.slice(cursorAt);
