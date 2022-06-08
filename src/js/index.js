@@ -77,9 +77,14 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
   document.addEventListener('keydown', (event) => {
+    textarea.focus();
     buttons.forEach((button) => {
       if (button.dataset.keyCode === event.key && event.key !== 'CapsLock') {
         button.classList.add('keyboard__button_active');
+      }
+      if (letterButtons(button) && button.dataset.keyCode === event.key) {
+        event.preventDefault();
+        handlers.buttonKeyOutput(button.textContent, textarea);
       }
     });
     if (event.key === 'CapsLock') {
@@ -93,6 +98,7 @@ window.addEventListener('DOMContentLoaded', () => {
       handlers.tabHandler(textarea);
     }
   });
+
   document.addEventListener('keyup', (event) => {
     buttons.forEach((button) => {
       if (button.dataset.keyCode === event.key && event.key !== 'CapsLock') {
