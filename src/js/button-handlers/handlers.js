@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { state, KEYBOARD } from '../constants/state';
 
 const handlers = {
@@ -35,21 +34,24 @@ const handlers = {
     });
   },
 
-  backspaceHandler: (textarea) => {
+  backspaceHandler: (textareaInitial) => {
+    const textarea = textareaInitial;
     const cursorAt = textarea.selectionStart;
     textarea.value = textarea.value.slice(0, cursorAt - 1)
                      + textarea.value.slice(cursorAt);
     textarea.setSelectionRange(cursorAt + 1, cursorAt - 1);
   },
 
-  tabHandler: (textarea) => {
+  tabHandler: (textareaInitial) => {
+    const textarea = textareaInitial;
     const cursorAt = textarea.selectionStart;
     textarea.value = textarea.value.slice(0, cursorAt)
                      + KEYBOARD.tab + textarea.value.slice(cursorAt);
     textarea.setSelectionRange(cursorAt + 2, cursorAt + 2);
   },
 
-  spaceHandler: (textarea) => {
+  spaceHandler: (textareaInitial) => {
+    const textarea = textareaInitial;
     const cursorAt = textarea.selectionStart;
     textarea.value = textarea.value.slice(0, cursorAt)
                      + KEYBOARD.space
@@ -57,7 +59,8 @@ const handlers = {
     textarea.setSelectionRange(cursorAt + 1, cursorAt + 1);
   },
 
-  enterHandler: (textarea) => {
+  enterHandler: (textareaInitial) => {
+    const textarea = textareaInitial;
     const cursorAt = textarea.selectionStart;
     textarea.value = textarea.value.slice(0, cursorAt)
                      + KEYBOARD.enter
@@ -65,14 +68,16 @@ const handlers = {
     textarea.setSelectionRange(cursorAt + 1, cursorAt + 1);
   },
 
-  deleteHandler: (textarea) => {
+  deleteHandler: (textareaInitial) => {
+    const textarea = textareaInitial;
     const cursorAt = textarea.selectionStart;
     textarea.value = textarea.value.slice(0, cursorAt)
                      + textarea.value.slice(cursorAt + 1);
     textarea.setSelectionRange(cursorAt + 1, cursorAt);
   },
 
-  buttonKeyOutput: (buttonValue, textarea) => {
+  buttonKeyOutput: (buttonValue, textareaInitial) => {
+    const textarea = textareaInitial;
     const cursorAt = textarea.selectionStart;
     textarea.value = textarea.value.slice(0, cursorAt)
                      + buttonValue
